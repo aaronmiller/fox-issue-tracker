@@ -4,7 +4,7 @@ const path = require('path');
 
 const config = {
   entry: {
-    index: [
+    home: [
       './src/js/index/index.js',
       './src/less/index/index.less'
     ],
@@ -88,4 +88,4 @@ const config = {
   ]
 };
 
-module.exports = config;
+module.exports = { config };
