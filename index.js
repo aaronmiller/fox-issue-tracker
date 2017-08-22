@@ -1,17 +1,26 @@
+'use-strict';
+
 const express = require('express');
 const mongoose = require('mongoose');
+
 const app = express();
 
 // Require Webpack Dev Middleware
 const webpack = require('webpack');
-const webpackMiddleware = require('webpack-dev-middleware');
-const { config } = require('./webpack.dev.config');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+
+const config = require('./webpack.config');
+
+const compiler = webpack(config);
 
 // Routes
 const { home } = require('./app/routes/index/index');
 const { signIn } = require('./app/routes/sign-in/sign-in');
 const { signUp } = require('./app/routes/sign-up/sign-up');
 const { dashboard } = require('./app/routes/dashboard/dashboard');
+const { about } = require('./app/routes/about/about');
+const { logout } = require('./app/routes/logout/logout');
 
 const { HOST, PORT, DATABASE_URL } = require('./config');
 
@@ -20,10 +29,14 @@ mongoose.promise = global.promise;
 
 // Webpack Dev Middleware
 // NOTE: For development purposes only. When deploying to prod, please remove.
-app.use(webpackMiddleware(webpack(config), {
+app.use(webpackDevMiddleware(compiler, {
   stats: {
     colors: true
   }
+}));
+app.use(webpackHotMiddleware(compiler, {
+  path: '/__webpack_hmr',
+  publicPath: config.output.publicPath
 }));
 
 // Router Middleware
@@ -31,6 +44,8 @@ app.use('/', home);
 app.use('/sign-in', signIn);
 app.use('/sign-up', signUp);
 app.use('/dashboard', dashboard);
+app.use('/about', about);
+app.use('/logout', logout);
 
 // Static Assets Middleware
 app.use(express.static('build'));

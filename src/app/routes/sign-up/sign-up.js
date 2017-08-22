@@ -3,9 +3,12 @@ const path = require('path');
 const signUp = express.Router();
 const bodyParser = require('body-parser');
 
+const { User } = require('../../../app/models/user/model');
+
+const app = express();
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-const { User } = require('../../../app/models/user/model');
+app.use(urlencodedParser);
 
 signUp.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../../views/sign-up/sign-up.html'));
