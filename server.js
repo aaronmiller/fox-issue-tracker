@@ -2,6 +2,11 @@
 
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
+const session = require('express-session');
+const passport = require('passport');
+const passportLocal = require('passport-local');
+const bodyParser = require('body-parser');
 
 const app = express();
 
@@ -15,12 +20,12 @@ const config = require('./webpack.config');
 const compiler = webpack(config);
 
 // Routes
-const { home } = require('./app/routes/index/index');
-const { signIn } = require('./app/routes/sign-in/sign-in');
-const { signUp } = require('./app/routes/sign-up/sign-up');
-const { dashboard } = require('./app/routes/dashboard/dashboard');
-const { about } = require('./app/routes/about/about');
-const { logout } = require('./app/routes/logout/logout');
+const { home } = require('./src/app/routes/index/index');
+const { signIn } = require('./src/app/routes/sign-in/sign-in');
+const { signUp } = require('./src/app/routes/sign-up/sign-up');
+const { dashboard } = require('./src/app/routes/dashboard/dashboard');
+const { about } = require('./src/app/routes/about/about');
+const { logout } = require('./src/app/routes/logout/logout');
 
 const { HOST, PORT, DATABASE_URL } = require('./config');
 
@@ -34,10 +39,15 @@ app.use(webpackDevMiddleware(compiler, {
     colors: true
   }
 }));
+
 app.use(webpackHotMiddleware(compiler, {
   path: '/__webpack_hmr',
   publicPath: config.output.publicPath
 }));
+
+// Set view engine and views for pug
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'src/app/views'));
 
 // Router Middleware
 app.use('/', home);
@@ -48,7 +58,7 @@ app.use('/about', about);
 app.use('/logout', logout);
 
 // Static Assets Middleware
-app.use(express.static('build'));
+app.use(express.static('dist'));
 
 let server;
 

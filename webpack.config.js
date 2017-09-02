@@ -2,7 +2,7 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const HTMLPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HTMLHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
@@ -21,7 +21,7 @@ const config = {
   },
 
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
     filename: 'js/[name]/[name]-[hash].bundle.js'
   },
@@ -40,14 +40,14 @@ const config = {
     rules: [
       {
         test: /\.pug$/,
-        use: ['pug-loader']
+        use: 'pug-loader'
       },
 
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: ['css-loader']
+          use: 'css-loader'
         })
       },
 
@@ -78,7 +78,7 @@ const config = {
 
       {
         test: /\.(jpe?g|png|svg)$/,
-        use: ['file-loader?name=[name].[ext]&outputPath=img/']
+        use: 'file-loader?name=[name].[ext]&outputPath=img/'
       }
     ]
   },
@@ -86,65 +86,84 @@ const config = {
   plugins: [
     new ExtractTextPlugin({
       allChunks: true,
-      disable: false,
       filename: 'css/[name]/[name]-[hash].bundle.css',
     }),
+
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
 
     // Home Page
-    new HTMLPlugin({
+    new HtmlWebpackPlugin({
+      inject: false,
       title: 'Fox - The Quick Issue Tracker | Home',
-      filename: '../app/views/index/index.html',
-      template: `${__dirname}/src/html-templates/index/index.pug`,
+      filename: 'index.html',
+      template: `${__dirname}/src/app/views/index/index.pug`,
+      mobile: true,
+      hash: true,
       chunks: ['global', 'home'],
-      alwaysWriteToDisk: true
+      // alwaysWriteToDisk: true
     }),
 
-    // Sign In Page
-    new HTMLPlugin({
-      title: 'Fox - The Quick Issue Tracker | Sign In',
-      filename: '../app/views/sign-in/sign-in.html',
-      template: `${__dirname}/src/html-templates/sign-in/sign-in.pug`,
-      chunks: ['global', 'signIn'],
-      alwaysWriteToDisk: true
-    }),
+    // // Sign In Page
+    // new HtmlWebpackPlugin({
+    //   inject: false,
+    //   title: 'Fox - The Quick Issue Tracker | Sign In',
+    //   // filename: 'sign-in.html',
+    //   template: `${__dirname}/src/app/views/sign-in/sign-in.pug`,
+    //   mobile: true,
+    //   hash: true,
+    //   chunks: ['global', 'signIn'],
+    //   // alwaysWriteToDisk: true
+    // }),
+    //
+    // // Sign Up Page
+    // new HtmlWebpackPlugin({
+    //   inject: false,
+    //   title: 'Fox - The Quick Issue Tracker | Sign Up',
+    //   // filename: 'sign-up.html',
+    //   template: `${__dirname}/src/app/views/sign-up/sign-up.pug`,
+    //   mobile: true,
+    //   hash: true,
+    //   chunks: ['global', 'signUp'],
+    //   // alwaysWriteToDisk: true
+    // }),
+    //
+    // // Dashboard
+    // new HtmlWebpackPlugin({
+    //   inject: false,
+    //   title: 'Fox - The Quick Issue Tracker | Dashboard',
+    //   // filename: 'dashboard.html',
+    //   template: `${__dirname}/src/app/views/dashboard/dashboard.pug`,
+    //   mobile: true,
+    //   hash: true,
+    //   chunks: ['global', 'dashboard'],
+    //   // alwaysWriteToDisk: true
+    // }),
+    //
+    // // About
+    // new HtmlWebpackPlugin({
+    //   inject: false,
+    //   title: 'Fox - The Quick Issue Tracker | About',
+    //   // filename: 'about.html',
+    //   template: `${__dirname}/src/app/views/about/about.pug`,
+    //   mobile: true,
+    //   hash: true,
+    //   chunks: ['global', 'about'],
+    //   // alwaysWriteToDisk: true
+    // }),
+    //
+    // // Logout
+    // new HtmlWebpackPlugin({
+    //   inject: false,
+    //   title: 'Fox - The Quick Issue Tracker | Logout',
+    //   // filename: 'logout.html',
+    //   template: `${__dirname}/src/app/views/logout/logout.pug`,
+    //   mobile: true,
+    //   hash: true,
+    //   chunks: ['global', 'logout'],
+    //   // alwaysWriteToDisk: true
+    // }),
 
-    // Sign Up Page
-    new HTMLPlugin({
-      title: 'Fox - The Quick Issue Tracker | Sign Up',
-      filename: '../app/views/sign-up/sign-up.html',
-      template: `${__dirname}/src/html-templates/sign-up/sign-up.pug`,
-      chunks: ['global', 'signUp'],
-      alwaysWriteToDisk: true
-    }),
-
-    // Dashboard
-    new HTMLPlugin({
-      title: 'Fox - The Quick Issue Tracker | Dashboard',
-      filename: '../app/views/dashboard/dashboard.html',
-      template: `${__dirname}/src/html-templates/dashboard/dashboard.pug`,
-      chunks: ['global', 'dashboard'],
-      alwaysWriteToDisk: true
-    }),
-
-    // About
-    new HTMLPlugin({
-      title: 'Fox - The Quick Issue Tracker | About',
-      filename: '../app/views/about/about.html',
-      template: `${__dirname}/src/html-templates/about/about.pug`,
-      chunks: ['global', 'about'],
-      alwaysWriteToDisk: true
-    }),
-
-    // Logout
-    new HTMLPlugin({
-      title: 'Fox - The Quick Issue Tracker | Logout',
-      filename: '../app/views/logout/logout.html',
-      template: `${__dirname}/src/html-templates/logout/logout.pug`,
-      chunks: ['global', 'logout'],
-      alwaysWriteToDisk: true
-    }),
     new HTMLHarddiskPlugin()
   ]
 };

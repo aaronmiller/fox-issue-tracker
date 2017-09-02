@@ -1,17 +1,13 @@
 const express = require('express');
-const path = require('path');
 const signUp = express.Router();
 const bodyParser = require('body-parser');
 
-const { User } = require('../../../app/models/user/model');
-
-const app = express();
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-app.use(urlencodedParser);
+const { User } = require('../../../app/models/user/model');
 
 signUp.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../../views/sign-up/sign-up.html'));
+  res.render('sign-up/sign-up');
 });
 
 signUp.post('/', urlencodedParser, (req, res) => {
@@ -26,7 +22,10 @@ signUp.post('/', urlencodedParser, (req, res) => {
 
   User
     .create(newUser)
-    .then(() => res.status(201).redirect('/dashboard'))
+    .then(user => {
+      req.session.user = user;
+      res.status(201).redirect('/dashboard')
+    })
     .catch(err => {
       console.log(err);
       res.status(500).json({error: 'Something went wrong...'});

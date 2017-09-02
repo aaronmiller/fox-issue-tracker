@@ -6,6 +6,7 @@ html(lang='en-US')
     header.site-header
       img.logo(src='/img/logo.png')
       include ../components/navigation
-    main(role='main').site-main
-      section
+    main.site-main(role='main')
+      section.main-section
+        include ../components/sign-up-form
     footer.site-footer
