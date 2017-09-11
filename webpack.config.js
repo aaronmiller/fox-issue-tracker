@@ -94,10 +94,9 @@ const config = {
 
     // Home Page
     new HtmlWebpackPlugin({
-      inject: false,
       title: 'Fox - The Quick Issue Tracker | Home',
       filename: 'index.html',
-      template: `${__dirname}/src/app/views/index/index.pug`,
+      template: `${__dirname}/src/app/views/home/home.pug`,
       mobile: true,
       hash: true,
       chunks: ['global', 'home'],
@@ -116,18 +115,17 @@ const config = {
     //   // alwaysWriteToDisk: true
     // }),
     //
-    // // Sign Up Page
-    // new HtmlWebpackPlugin({
-    //   inject: false,
-    //   title: 'Fox - The Quick Issue Tracker | Sign Up',
-    //   // filename: 'sign-up.html',
-    //   template: `${__dirname}/src/app/views/sign-up/sign-up.pug`,
-    //   mobile: true,
-    //   hash: true,
-    //   chunks: ['global', 'signUp'],
-    //   // alwaysWriteToDisk: true
-    // }),
-    //
+    // Sign Up Page
+    new HtmlWebpackPlugin({
+      title: 'Fox - The Quick Issue Tracker | Sign Up',
+      filename: 'sign-up.html',
+      template: `${__dirname}/src/app/views/sign-up/sign-up.pug`,
+      mobile: true,
+      hash: true,
+      chunks: ['global', 'signUp'],
+      // alwaysWriteToDisk: true
+    }),
+
     // // Dashboard
     // new HtmlWebpackPlugin({
     //   inject: false,
