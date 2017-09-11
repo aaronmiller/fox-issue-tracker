@@ -105,7 +105,6 @@ const config = {
 
     // // Sign In Page
     // new HtmlWebpackPlugin({
-    //   inject: false,
     //   title: 'Fox - The Quick Issue Tracker | Sign In',
     //   // filename: 'sign-in.html',
     //   template: `${__dirname}/src/app/views/sign-in/sign-in.pug`,
@@ -128,7 +127,6 @@ const config = {
 
     // // Dashboard
     // new HtmlWebpackPlugin({
-    //   inject: false,
     //   title: 'Fox - The Quick Issue Tracker | Dashboard',
     //   // filename: 'dashboard.html',
     //   template: `${__dirname}/src/app/views/dashboard/dashboard.pug`,
@@ -138,29 +136,16 @@ const config = {
     //   // alwaysWriteToDisk: true
     // }),
     //
-    // // About
-    // new HtmlWebpackPlugin({
-    //   inject: false,
-    //   title: 'Fox - The Quick Issue Tracker | About',
-    //   // filename: 'about.html',
-    //   template: `${__dirname}/src/app/views/about/about.pug`,
-    //   mobile: true,
-    //   hash: true,
-    //   chunks: ['global', 'about'],
-    //   // alwaysWriteToDisk: true
-    // }),
-    //
-    // // Logout
-    // new HtmlWebpackPlugin({
-    //   inject: false,
-    //   title: 'Fox - The Quick Issue Tracker | Logout',
-    //   // filename: 'logout.html',
-    //   template: `${__dirname}/src/app/views/logout/logout.pug`,
-    //   mobile: true,
-    //   hash: true,
-    //   chunks: ['global', 'logout'],
-    //   // alwaysWriteToDisk: true
-    // }),
+    // About
+    new HtmlWebpackPlugin({
+      title: 'Fox - The Quick Issue Tracker | About',
+      filename: 'about.html',
+      template: `${__dirname}/src/app/views/about/about.pug`,
+      mobile: true,
+      hash: true,
+      chunks: ['global', 'about'],
+      // alwaysWriteToDisk: true
+    }),
 
     new HTMLHarddiskPlugin()
   ]
